@@ -22,7 +22,10 @@ class ProjectsPage extends StatelessWidget {
             );
           }
           else {
-            return const SizedBox();
+            BlocProvider.of<DatabaseCubit>(context).getAllProjects();
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
         },
       ),
