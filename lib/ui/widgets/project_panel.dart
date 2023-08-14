@@ -42,8 +42,8 @@ class _ProjectPanelState extends State<ProjectPanel> {
           ),
         ),
         child: InkWell(
-          onTap: () {},
-          mouseCursor: MouseCursor.uncontrolled,
+          onTap: (){},
+          mouseCursor: SystemMouseCursors.basic,
           onHover: (val) {
             setState(() {
               isHover = val;
@@ -57,7 +57,6 @@ class _ProjectPanelState extends State<ProjectPanel> {
                 height: MediaQuery.of(context).size.height/3,
                 width: MediaQuery.of(context).size.width*0.2,
                 decoration: BoxDecoration(
-                  //color: Color(0xff28f4f4).withOpacity(0.1),
                   image: DecorationImage(
                     opacity: isHover ? 1 : 0.4,
                     fit: BoxFit.fitHeight,
@@ -81,7 +80,6 @@ class _ProjectPanelState extends State<ProjectPanel> {
                               color: Colors.white,
                               fontSize: 120,
                             ),
-                            //softWrap: false,
                             overflow: TextOverflow.ellipsis,
                             stepGranularity: 10,
                             minFontSize: 10,
@@ -103,7 +101,6 @@ class _ProjectPanelState extends State<ProjectPanel> {
                                   color: Colors.white,
                                   fontSize: 60,
                                 ),
-                                //softWrap: false,
                                 overflow: TextOverflow.clip,
                                 stepGranularity: 10,
                                 minFontSize: 10,
@@ -123,35 +120,17 @@ class _ProjectPanelState extends State<ProjectPanel> {
                                 ),
                               ),
                             ),
-                            Align(
-                              alignment: const Alignment(0.9,0.9),
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width/10,
-                                height: MediaQuery.of(context).size.height/30,
-                                child: OutlinedButton(
-                                  style: OutlinedButton.styleFrom(
-                                    elevation: 1,
-                                    backgroundColor: Colors.white,
-                                    side: const BorderSide(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  onPressed: (){
-                                    html.window.open(widget.githubLink, widget.title);
-                                  },
-                                  child: const AutoSizeText(
-                                    'Github',
-                                    overflow: TextOverflow.ellipsis,
-                                    stepGranularity: 1,
-                                    minFontSize: 10,
-                                    maxLines: 1,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                      fontSize: 15,
-                                ),),
-                                ),
-                              ),
-                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                ButtonPrimary(onPressed: () => html.window.open(widget.githubLink, widget.title),
+                                    text: 'Github', height: MediaQuery.of(context).size.height/30, width: MediaQuery.of(context).size.width/10),
+                                const SizedBox(width: 5,),
+                                widget.title == 'Jumpy Jumper Jumps' ? ButtonPrimary(onPressed: () => html.window.open('https://play.google.com/store/apps/details?id=site.marksprojects.jumpy_jumper_jumps', widget.title),
+                                    text: 'Play Store', height: MediaQuery.of(context).size.height/30, width: MediaQuery.of(context).size.width/10) : const SizedBox(),
+                                const SizedBox(width: 5,),
+                              ],
+                            )
                           ],
                         ),
                       ),

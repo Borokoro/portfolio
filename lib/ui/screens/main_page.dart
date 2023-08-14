@@ -27,7 +27,7 @@ class MainPage extends StatelessWidget {
               filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
               child: Column(
                 children: [
-                  ButtonPrimary(onPressed:() => GoRouter.of(context).push('/projects'), text: 'Projects', height: MediaQuery.of(context).size.height/6, width: MediaQuery.of(context).size.width/4)
+                  ButtonPrimary(onPressed:() => GoRouter.of(context).push('/projects'), text: 'Projects', height: MediaQuery.of(context).size.height/8, width: MediaQuery.of(context).size.width/4)
                 ],
               ),
             ),
