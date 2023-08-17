@@ -1,7 +1,4 @@
-import 'dart:js';
-
 import 'package:go_router/go_router.dart';
-
 import '../ui/screens/main_page.dart';
 import '../ui/screens/projects_page.dart';
 

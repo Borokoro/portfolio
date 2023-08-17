@@ -28,7 +28,7 @@ class _ProjectPanelState extends State<ProjectPanel> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height/3,
+      height: 300,
       width: MediaQuery.of(context).size.width,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 500),
@@ -54,7 +54,7 @@ class _ProjectPanelState extends State<ProjectPanel> {
             child: Row(
               children: [
                 Container(
-                height: MediaQuery.of(context).size.height/3,
+                height: 300,
                 width: MediaQuery.of(context).size.width*0.2,
                 decoration: BoxDecoration(
                   image: DecorationImage(
@@ -90,11 +90,11 @@ class _ProjectPanelState extends State<ProjectPanel> {
                       AnimatedContainer(
                         duration: const Duration(milliseconds: 500),
                         width: isHover ? MediaQuery.of(context).size.width*0.8-5 : 0,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        child: Stack(
                           children: [
-                            Align(
-                              alignment: Alignment.topLeft,
+                            Positioned(
+                              top: 1,
+                              left: 0,
                               child: AutoSizeText(
                                 widget.title,
                                 style: const TextStyle(
@@ -109,27 +109,31 @@ class _ProjectPanelState extends State<ProjectPanel> {
                             ),
                             Align(
                               alignment: Alignment.center,
-                              child: AutoSizeText.rich(
-                                TextSpan(text: widget.description),
+                              child: AutoSizeText(
+                                widget.description,
                                 stepGranularity: 1,
                                 minFontSize: 2,
-                                maxLines: 4,
+                                maxLines: MediaQuery.of(context).size.width > 650 ? 4 : 6,
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
                                 ),
                               ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                ButtonPrimary(onPressed: () => html.window.open(widget.githubLink, widget.title),
-                                    text: 'Github', height: MediaQuery.of(context).size.height/30, width: MediaQuery.of(context).size.width/10),
-                                const SizedBox(width: 5,),
-                                widget.title == 'Jumpy Jumper Jumps' ? ButtonPrimary(onPressed: () => html.window.open('https://play.google.com/store/apps/details?id=site.marksprojects.jumpy_jumper_jumps', widget.title),
-                                    text: 'Play Store', height: MediaQuery.of(context).size.height/30, width: MediaQuery.of(context).size.width/10) : const SizedBox(),
-                                const SizedBox(width: 5,),
-                              ],
+                            Positioned(
+                              top: 250,
+                              width: widget.title == 'Jumpy Jumper Jumps' ? MediaQuery.of(context).size.width*0.8 : MediaQuery.of(context).size.width,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  ButtonPrimary(onPressed: () => html.window.open(widget.githubLink, widget.title),
+                                      text: 'Github', height: 40, width: MediaQuery.of(context).size.width/5),
+                                  const SizedBox(width: 10,),
+                                  widget.title == 'Jumpy Jumper Jumps' ? ButtonPrimary(onPressed: () => html.window.open('https://play.google.com/store/apps/details?id=site.marksprojects.jumpy_jumper_jumps', widget.title),
+                                      text: 'Play Store', height: 40, width: MediaQuery.of(context).size.width/5) : const SizedBox(),
+                                  const SizedBox(width: 5,),
+                                ],
+                              ),
                             )
                           ],
                         ),
