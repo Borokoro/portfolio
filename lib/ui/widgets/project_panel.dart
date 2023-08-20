@@ -35,7 +35,7 @@ class _ProjectPanelState extends State<ProjectPanel> {
         curve: Curves.linear,
         decoration: BoxDecoration(
           gradient:LinearGradient(
-            colors: [const Color(0xE6002327), Color(widget.color)],
+            colors: [widget.title=='Portfolio' ? Colors.redAccent : const Color(0xE6002327), Color(widget.color)],
             stops: isHover ? [1, 1] : [0.6, 1],
             begin: Alignment.centerRight,
             end: Alignment.centerLeft,
@@ -53,17 +53,26 @@ class _ProjectPanelState extends State<ProjectPanel> {
             width: MediaQuery.of(context).size.width,
             child: Row(
               children: [
-                Container(
-                height: 300,
-                width: MediaQuery.of(context).size.width*0.2,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    opacity: isHover ? 1 : 0.4,
-                    fit: BoxFit.fitHeight,
+                SizedBox(
+                  height: 300,
+                  width: MediaQuery.of(context).size.width*0.2,
+                  child: Image(
+                    opacity: isHover ? const AlwaysStoppedAnimation(1) : const AlwaysStoppedAnimation(0.4),
+
+                    loadingBuilder: (BuildContext context, Widget child,  ImageChunkEvent? loadingProgress){
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      );
+                    },
                     image: isHover ? AssetImage("assets/images/${widget.title}.gif") : AssetImage("assets/images/${widget.title}.jpeg"),
                   ),
                 ),
-              ),
                 const SizedBox(width: 5,),
                 Expanded(
                   child: Row(
@@ -122,7 +131,7 @@ class _ProjectPanelState extends State<ProjectPanel> {
                             ),
                             Positioned(
                               top: 250,
-                              width: widget.title == 'Jumpy Jumper Jumps' ? MediaQuery.of(context).size.width*0.8 : MediaQuery.of(context).size.width,
+                              width: MediaQuery.of(context).size.width*0.8,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
