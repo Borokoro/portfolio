@@ -45,12 +45,23 @@ class ProjectsPage extends StatelessWidget {
                       githubLink: stateDb.githubLinks[index],
                     );
                   });
-            } else {
-              BlocProvider.of<DatabaseCubit>(context).getAllProjects();
+            }
+            else if(stateDb is DatabaseLoadingState ||
+                stateImg is ImagesLoadingState){
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            else if(stateDb is DatabaseLoadedState &&
+                stateImg is ImagesInitialState){
               BlocProvider.of<ImagesCubit>(context).cacheAllImages(context);
               return const Center(
                 child: CircularProgressIndicator(),
               );
+            }
+            else {
+              BlocProvider.of<DatabaseCubit>(context).getAllProjects();
+              return const SizedBox();
             }
           });
         },

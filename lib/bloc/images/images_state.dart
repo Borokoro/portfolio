@@ -6,6 +6,10 @@ class ImagesInitialState extends ImagesState{
   ImagesInitialState();
 }
 
+class ImagesLoadingState extends ImagesState{
+  ImagesLoadingState();
+}
+
 class ImagesLoadedState extends ImagesState{
   ImagesLoadedState();
 }

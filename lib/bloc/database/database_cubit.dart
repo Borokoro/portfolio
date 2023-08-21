@@ -9,6 +9,7 @@ class DatabaseCubit extends Cubit<DatabaseState> {
       FirebaseFirestore.instance.collection("projects");
 
   void getAllProjects() async {
+    emit(DatabaseLoadingState());
     List<String> titles = [];
     List<String> descriptions = [];
     List<int> colors = [];

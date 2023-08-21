@@ -7,6 +7,10 @@ class DatabaseInitialState extends DatabaseState{
   DatabaseInitialState();
 }
 
+class DatabaseLoadingState extends DatabaseState{
+  DatabaseLoadingState();
+}
+
 class DatabaseLoadedState extends DatabaseState{
   DatabaseLoadedState(
       this.titles,
