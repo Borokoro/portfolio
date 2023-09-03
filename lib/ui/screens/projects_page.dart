@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:portfolio/bloc/images/images_state.dart';
 import 'package:portfolio/ui/widgets/project_panel.dart';
+import 'package:portfolio/bloc/panel/panel_cubit.dart';
+import 'package:portfolio/bloc/panel/panel_state.dart';
 
 import '../../bloc/images/images_cubit.dart';
 
@@ -31,39 +33,43 @@ class ProjectsPage extends StatelessWidget {
       ),
       body: BlocBuilder<DatabaseCubit, DatabaseState>(
         builder: (context, stateDb) {
-          return BlocBuilder<ImagesCubit, ImagesState>(
-              builder: (context, stateImg) {
-            if (stateDb is DatabaseLoadedState &&
-                stateImg is ImagesLoadedState) {
-              return ListView.builder(
-                  itemCount: stateDb.titles.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ProjectPanel(
-                      title: stateDb.titles[index],
-                      description: stateDb.descriptions[index],
-                      color: stateDb.colors[index],
-                      githubLink: stateDb.githubLinks[index],
-                    );
-                  });
-            }
-            else if(stateDb is DatabaseLoadingState ||
-                stateImg is ImagesLoadingState){
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            else if(stateDb is DatabaseLoadedState &&
-                stateImg is ImagesInitialState){
-              BlocProvider.of<ImagesCubit>(context).cacheAllImages(context);
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            else {
-              BlocProvider.of<DatabaseCubit>(context).getAllProjects();
-              return const SizedBox();
-            }
-          });
+          return BlocBuilder<PanelCubit, PanelState>(
+            builder: (context, statePn) {
+              return BlocBuilder<ImagesCubit, ImagesState>(
+                  builder: (context, stateImg) {
+                if (stateDb is DatabaseLoadedState &&
+                    stateImg is ImagesLoadedState) {
+                  return ListView.builder(
+                      itemCount: stateDb.titles.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ProjectPanel(
+                          title: stateDb.titles[index],
+                          description: stateDb.descriptions[index],
+                          color: stateDb.colors[index],
+                          githubLink: stateDb.githubLinks[index],
+                          isChosen:
+                              statePn.chosenPanelId == index ? true : false,
+                          id: index,
+                        );
+                      });
+                } else if (stateDb is DatabaseLoadingState ||
+                    stateImg is ImagesLoadingState) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (stateDb is DatabaseLoadedState &&
+                    stateImg is ImagesInitialState) {
+                  BlocProvider.of<ImagesCubit>(context).cacheAllImages(context);
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  BlocProvider.of<DatabaseCubit>(context).getAllProjects();
+                  return const SizedBox();
+                }
+              });
+            },
+          );
         },
       ),
     );
